@@ -1,0 +1,39 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+
+# Create a sample dataset
+df = pd.DataFrame({
+    'gender': ['Male', 'Female', 'Female', 'Male', 'Male'],
+    'churn': [1, 0, 1, 0, 1],
+    'age': [25, 30, 40, 35, 50],
+    'service type': ['A', 'B', 'A', 'B', 'A'],
+    'tenure': [12, 24, 36, 48, 60],
+    'feature1': [5.1, 4.3, 6.2, 5.5, 4.8],
+    'feature2': [2.1, 3.5, 1.8, 2.9, 3.2],
+    'cluster': ['Group1', 'Group2', 'Group1', 'Group2', 'Group1']
+})
+
+# Churn rate by gender
+sns.countplot(data=df, x='gender', hue='churn')
+plt.title('Churn Rate by Gender')
+plt.show()
+
+# Churn rate by age group
+px.histogram(df, x='age', color="churn", title="Churn Rate by Age Group").show()
+
+# Churn rate by service type
+px.pie(df, values='churn', names='service type', title="Churn Rate by Service Type").show()
+
+# Correlation matrix
+numeric_df = df.select_dtypes(include=['number'])
+sns.heatmap(numeric_df.corr(), annot=True, cmap="coolwarm")
+plt.title('Correlation Matrix')
+plt.show()
+
+# Customer tenure vs. churn
+px.scatter(df, x='tenure', y='churn', color='churn', title="Customer Tenure vs. Churn").show()
+
+# Customer segmentation
+px.scatter(df, x='feature1', y='feature2', color='cluster', title="Customer Segmentation").show()
